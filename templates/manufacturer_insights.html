@@ -1,0 +1,93 @@
+<!-- templates/manufacturer_insights.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manufacturer Insights - AutoFeel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="navbar">
+  <a href="{{ url_for('index') }}">🏠 Home</a>
+  <a href="{{ url_for('explore_reviews') }}">📝 Explore Reviews</a>
+  <a href="{{ url_for('submit') }}">➕ Submit</a>
+  <a href="{{ url_for('manufacturer_insights') }}">📊 Manufacturer Insights</a>
+  <a href="{{ url_for('about') }}">👤 About</a>
+</div>
+
+<video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='bg-video.mp4') }}" type="video/mp4">
+</video>
+
+<div class="container" data-aos="fade-in">
+    <h1 class="title">Manufacturer Insights</h1>
+
+    <!-- Filter Form -->
+    <form method="POST" action="{{ url_for('manufacturer_insights') }}" class="filter-form">
+        <label><strong>Select Brand:</strong></label>
+        <select name="brand" id="brand-select" required>
+            <option value="">-- Choose Brand --</option>
+            {% for brand in brands %}
+                <option value="{{ brand }}" {% if brand == selected_brand %}selected{% endif %}>{{ brand }}</option>
+            {% endfor %}
+        </select>
+
+        <label><strong>Select Car:</strong></label>
+        <select name="car" id="car-select" required>
+            <option value="">-- Choose Car --</option>
+            {% if selected_brand %}
+                {% for car in cars_by_brand[selected_brand] %}
+                    <option value="{{ car }}" {% if car == selected_car %}selected{% endif %}>{{ car }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+
+        <button type="submit">Filter Reviews</button>
+    </form>
+
+    <!-- Review Summary -->
+    {% if summary %}
+    <div class="summary-box" data-aos="fade-up">
+        <h3>Summary for {{ selected_brand }} - {{ selected_car }}</h3>
+        <p>Total Reviews: <strong>{{ summary.total_reviews }}</strong></p>
+        <p>Average Rating: <strong>{{ summary.avg_rating }}</strong> ⭐</p>
+        <p>Sentiments → 😊 Positive: <strong>{{ summary.positive_count }}</strong> | 😞 Negative: <strong>{{ summary.negative_count }}</strong></p>
+    </div>
+    {% endif %}
+
+    <!-- Filtered Reviews -->
+    {% if filtered_reviews %}
+    <div class="reviews-section" data-aos="fade-up">
+        {% for review in filtered_reviews %}
+            <div class="review-card">
+                <h3>{{ review.Brand }} - {{ review.Car }}</h3>
+                <p><strong>Rating:</strong> ⭐ {{ review.Rating }} | <strong>Sentiment:</strong> {{ review.Sentiment }}</p>
+                <p>{{ review.Review }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    AOS.init();
+
+    // Populate car options based on selected brand
+    const carsByBrand = {{ cars_by_brand | tojson | safe }};
+    $('#brand-select').on('change', function () {
+        const selected = $(this).val();
+        const carSelect = $('#car-select');
+        carSelect.empty().append('<option value="">-- Choose Car --</option>');
+
+        if (carsByBrand[selected]) {
+            carsByBrand[selected].forEach(car => {
+                carSelect.append(`<option value="${car}">${car}</option>`);
+            });
+        }
+    });
+</script>
+</body>
+</html>

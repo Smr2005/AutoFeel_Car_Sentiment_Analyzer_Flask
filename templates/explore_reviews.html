@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AutoFeel | Explore Reviews</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/aos.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  <!-- ✅ jQuery (Required for dynamic filtering) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <!-- ✅ Background Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='bg-video.mp4') }}" type="video/mp4">
+  </video>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="{{ url_for('index') }}">🏠 Home</a>
+    <a href="{{ url_for('explore_reviews') }}">🔍 Explore Reviews</a>
+    <a href="{{ url_for('submit') }}">📝 Submit</a>
+    <a href="{{ url_for('manufacturer_insights') }}">📊 Manufacturer Insights</a>
+    <a href="{{ url_for('about') }}">👤 About</a>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Explore Car Reviews</h1>
+
+    <!-- Filter Form -->
+    <form method="POST">
+      <label for="brand">Select Brand:</label>
+      <select name="brand" id="brand">
+        <option value="">-- Select Brand --</option>
+        {% for brand in brands %}
+          <option value="{{ brand }}" {% if selected_brand == brand %}selected{% endif %}>{{ brand }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="car">Select Car:</label>
+      <select name="car" id="car">
+        <option value="">-- Select Car --</option>
+        {% for car in cars %}
+          <option value="{{ car }}" {% if selected_car == car %}selected{% endif %}>{{ car }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="btn-filter">Filter</button>
+    </form>
+
+    <!-- Review Summary -->
+    {% if reviews %}
+      <div class="summary">
+        <p><strong>Total Reviews:</strong> {{ reviews|length }}</p>
+        <p><strong>Average Rating:</strong> {{ avg_rating|round(2) }}</p>
+        <p><strong>Positive Reviews:</strong> {{ sentiment_counts['Positive'] }}</p>
+        <p><strong>Negative Reviews:</strong> {{ sentiment_counts['Negative'] }}</p>
+      </div>
+
+      <!-- Review Cards -->
+      {% for review in reviews %}
+        <div class="review-card">
+          <p><strong>Review:</strong> {{ review.review }}</p>
+          <p><strong>Rating:</strong> ⭐ {{ review.rating }}</p>
+          <p><strong>Sentiment:</strong>
+            <span class="sentiment-{{ review.sentiment|lower }}">
+              {{ review.sentiment }}
+            </span>
+          </p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No reviews available for the selected criteria.</p>
+    {% endif %}
+  </div>
+
+  <!-- ✅ AJAX for Car Dropdown -->
+  <script>
+    $(document).ready(function () {
+      $('#brand').on('change', function () {
+        const brand = $(this).val();
+        $('#car').html('<option>Loading...</option>');
+
+        $.ajax({
+          url: "/get_cars",
+          method: "POST",
+          data: { brand: brand },
+          success: function (data) {
+            $('#car').html('<option value="">-- Select Car --</option>');
+            data.cars.forEach(function (car) {
+              $('#car').append(`<option value="${car}">${car}</option>`);
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

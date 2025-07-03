@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AutoFeel | Car Sentiment Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/aos.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='bg-video.mp4') }}" type="video/mp4">
+  </video>
+
+  <header class="navbar" data-aos="fade-down">
+    <a href="{{ url_for('index') }}">🏠 Home</a>
+    <a href="{{ url_for('explore_reviews') }}">📝 Explore Reviews</a>
+    <a href="{{ url_for('submit') }}">➕ Submit</a>
+    <a href="{{ url_for('manufacturer_insights') }}">📊 Manufacturer Insights</a>
+    <a href="{{ url_for('about') }}">👤 About</a>
+  </header>
+
+  <div class="container" data-aos="fade-up">
+    <h1>AutoFeel: Car Sentiment Analyzer</h1>
+    <p style="text-align:center; margin-bottom:2rem;">
+      Analyze and understand what people really feel about cars — one review at a time.
+    </p>
+    <div style="text-align:center;">
+      <a href="{{ url_for('submit') }}" class="btn-filter">🚗 Submit a Review</a>
+      <a href="{{ url_for('explore_reviews') }}" class="btn-filter">📖 Explore Reviews</a>
+      <a href="{{ url_for('manufacturer_insights') }}" class="btn-filter">📈 Manufacturer Insights</a>
+      <a href="{{ url_for('about') }}" class="btn-filter">👤 About the Developer</a>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/aos.js') }}"></script>
+  <script>
+    AOS.init({ duration: 1200, once: true });
+  </script>
+</body>
+</html>

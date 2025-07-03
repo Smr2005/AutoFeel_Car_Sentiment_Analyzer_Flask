@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About the Developer | Sameer Shaik</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+  <div class="navbar">
+  <a href="{{ url_for('index') }}">🏠 Home</a>
+  <a href="{{ url_for('explore_reviews') }}">📝 Explore Reviews</a>
+  <a href="{{ url_for('submit') }}">➕ Submit</a>
+  <a href="{{ url_for('manufacturer_insights') }}">📊 Manufacturer Insights</a>
+  <a href="{{ url_for('about') }}">👤 About</a>
+</div>
+
+<video autoplay muted loop id="bg-video">
+  <source src="{{ url_for('static', filename='bg-video.mp4') }}" type="video/mp4">
+</video>
+
+<div class="container about-container" data-aos="fade-in">
+  <img class="profile-img" src="https://github.com/Smr2005.png" alt="Sameer Shaik" />
+  <h1>Sameer Shaik</h1>
+  <h3>AI & Data Science | B.Tech @ Aditya College of Engineering</h3>
+
+  <p>🎓 Passionate about using AI for real-world impact. I’ve developed:</p>
+  <ul class="project-list">
+    <li>🤖 Facial Attendance System</li>
+    <li>🛠️ IoT Gas Leak Detection</li>
+    <li>🩺 Disease Prediction using Streamlit</li>
+  </ul>
+
+  <p>🖋 Outside tech: poet and creative writer.</p>
+
+  <div class="badges">
+    <a href="mailto:shaiksameershubhan@gmail.com">📧 Email</a>
+    <a href="https://www.linkedin.com/in/shaik-sameer-69a3422a8" target="_blank">🔗 LinkedIn</a>
+    <a href="https://github.com/Smr2005" target="_blank">💻 GitHub</a>
+    <a href="https://www.instagram.com/_shaik___sameer_shubhan" target="_blank">📸 Instagram</a>
+    <a href="https://www.instagram.com/s.m.r_writings" target="_blank">📝 Writings</a>
+  </div>
+
+  <div class="skills">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original-wordmark.svg" alt="SQL" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy" />
+    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968508.png" alt="Power BI" />
+  </div>
+
+  <div class="footer">
+    <p>Made with ❤️ by Sameer Shaik | 2025</p>
+    <a href="{{ url_for('index') }}">🏠 Back to Home</a>
+  </div>
+</div>
+
+<script>
+  AOS.init();
+</script>
+</body>
+</html>
