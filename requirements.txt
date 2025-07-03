@@ -1,1 +1,6 @@
- 
+Flask
+pandas
+nltk
+scikit-learn
+textblob
+gunicorn
